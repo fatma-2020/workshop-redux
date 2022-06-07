@@ -4,14 +4,21 @@ import Post from "../Post/Post";
 
 const ListPost = () => {
   const posts = useSelector((state) => state.postsReducer.posts);
+  const status = useSelector((state) => state.postsReducer.status);
   return (
     <>
       {" "}
       <h1>ListPost</h1>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
-        {posts.map((post) => (
+        {status=="All"?
+        posts.map((post) => (
           <Post key={post.id} post={post} />
-        ))}
+        )):status=="Verified"? posts.filter(el=>el.isVerified).map((post) => (
+          <Post key={post.id} post={post} />
+        )):posts.filter(el=>!el.isVerified).map((post) => (
+          <Post key={post.id} post={post} />
+        ))
+      }
       </div>
     </>
   );

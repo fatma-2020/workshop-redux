@@ -6,7 +6,8 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
-import { deletePost } from "../../JS/Actions/PostsAction";
+import { deletePost, verifiedPost } from "../../JS/Actions/PostsAction";
+import { Link, useNavigate } from "react-router-dom";
 
 const bull = (
   <Box
@@ -19,6 +20,7 @@ const bull = (
 
 export default function BasicCard({ post }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -37,9 +39,15 @@ export default function BasicCard({ post }) {
         </Typography>
       </CardContent>
       <CardActions>
+      <Button size="small" onClick={()=>{dispatch(verifiedPost(post.id));console.log("x")}}>
+          {post.isVerified? "Verified" : "not verified"}
+        </Button>
         <Button size="small" onClick={() => dispatch(deletePost(post.id))}>
           Delete
         </Button>
+        <Link to={`/editPost/${post.id}`}>
+          <Button size="small">EDIT</Button>
+        </Link>
       </CardActions>
     </Card>
   );
